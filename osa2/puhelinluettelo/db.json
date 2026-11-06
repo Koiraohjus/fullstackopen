@@ -1,0 +1,40 @@
+{
+  "persons": [
+    {
+      "name": "Dan Abramov",
+      "number": "12-43-234345",
+      "id": "3"
+    },
+    {
+      "name": "Koira Ohjus",
+      "number": "666",
+      "id": "_lwJaP-uoJo"
+    },
+    {
+      "name": "Nakkiperse",
+      "number": "888",
+      "id": "kWZTjLcV_l8"
+    },
+    {
+      "name": "Sipuli",
+      "number": "9121212",
+      "id": "OTLdpS-ifAY"
+    },
+    {
+      "name": "koira",
+      "number": "212121",
+      "id": "Qel5GstUEdI"
+    },
+    {
+      "name": "x<z<",
+      "number": "4444",
+      "id": "650tyeygLWw"
+    },
+    {
+      "name": "snaappi",
+      "number": "666444",
+      "id": "-YSr1lX5RNI"
+    }
+  ],
+  "$schema": "./node_modules/json-server/schema.json"
+}
