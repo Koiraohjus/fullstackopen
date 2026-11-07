@@ -8,6 +8,7 @@ morgan.token('body', (request) => {
 const app = express()
 //Lukee HTTP-pyynnon JSON-datan ja laittaa sen request.body-muuttujaan
 app.use(express.json())
+app.use(express.static('dist'))
 app.use(
   morgan(':method :url :status :res[content-length] - :response-time ms :body')
 )
