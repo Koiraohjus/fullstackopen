@@ -75,10 +75,12 @@ const Weather = ({country}) => {
     .then(weatherData => {
       setWeather(weatherData)
     }).catch(error => {
+      //
         console.log(error.response.data)
     })
   }
-  )
+  , [lat, lon])
+  
   if (!weather) {
     return <p>Loading weather...</p>
   }
@@ -90,7 +92,7 @@ const Weather = ({country}) => {
       src={`https://openweathermap.org/img/wn/${weather.weather[0].icon}@2x.png`}
       alt="weather icon"
     />
-     <p>Wind{weather.wind.speed} m/s</p>
+     <p>Wind {weather.wind.speed} m/s</p>
     </>
   )
 }
