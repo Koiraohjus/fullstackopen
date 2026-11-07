@@ -88,6 +88,29 @@ app.post('/api/persons', (request, response) => {
 
 })
 
+app.put('/api/persons/:id', (request, response) => {
+  const body = request.body
+  const id = request.params.id
+  
+  if(!body.number){
+        return response.status(400).json({ 
+            error: 'number cannot be empty' 
+    })
+  }
+  const person = persons.find(person => person.id === id)
+
+  const updatedPerson = {
+    ...person,
+    number: body.number
+  }
+
+  persons = persons.map(person =>
+  person.id !== id ? person : updatedPerson
+  )
+
+  response.json(updatedPerson)
+})
+
 app.delete('/api/persons/:id', (request, response) => {
     const id = request.params.id
     persons = persons.filter(person => person.id !== id)
