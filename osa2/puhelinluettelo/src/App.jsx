@@ -63,8 +63,7 @@ const App = () => {
       setMessage('Succesfully removed person', 'success')
     })
     .catch(() => {
-      notificationClass = 'error'
-      setMessage(`${person.name} has already been removed`)
+      setMessage(`${person.name} has already been removed`, 'error')
       setPersons(persons.filter(person => person.id !== id))
       
     })
