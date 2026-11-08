@@ -2,7 +2,7 @@ const express = require('express')
 require('dotenv').config()
 const morgan = require('morgan')
 const Person = require('./models/person')
-const person = require('./models/person')
+
 
 const app = express()
 //Lukee HTTP-pyynnon JSON-datan ja laittaa sen request.body-muuttujaan
@@ -31,63 +31,63 @@ app.get('/api/persons', (request, response, next) => {
   Person.find({}).then(persons =>{
     response.json(persons)
   })
-  .catch(error => next(error))
+    .catch(error => next(error))
 }) 
 
 app.get('/api/persons/:id', (request, response, next) => {
-    Person.findById(request.params.id).then(person => {
-     if (person) {
-        response.json(person)
-      } else {
-        response.status(404).end()
-      }
-    })
+  Person.findById(request.params.id).then(person => {
+    if (person) {
+      response.json(person)
+    } else {
+      response.status(404).end()
+    }
+  })
     .catch(error => next(error))
 })
 
 app.post('/api/persons', (request, response, next) => {
-    const body = request.body
-    if(!body.name){
-        return response.status(400).json({ 
-            error: 'name missing' 
-        })
-    }
-    if(!body.number){
-        return response.status(400).json({ 
-            error: 'number missing' 
-        })
-    }
-    Person.findOne({
+  const body = request.body
+  if(!body.name){
+    return response.status(400).json({ 
+      error: 'name missing' 
+    })
+  }
+  if(!body.number){
+    return response.status(400).json({ 
+      error: 'number missing' 
+    })
+  }
+  Person.findOne({
     name: body.name
-    })
+  })
     .then(existingPerson => {
-    if (existingPerson) {
-      return response.status(400).json({
-      error: 'name must be unique'
+      if (existingPerson) {
+        return response.status(400).json({
+          error: 'name must be unique'
+        })
+      }
+
+      const person = new Person({
+        name: body.name,
+        number: body.number
+      })
+
+      return person.save()
     })
-    }
-
-  const person = new Person({
-    name: body.name,
-    number: body.number
-  })
-
-  return person.save()
-  })
-  .then(savedPerson => {
-    if (savedPerson) {
-      response.json(savedPerson)
-    }
-  })
-.catch(error => next(error))
+    .then(savedPerson => {
+      if (savedPerson) {
+        response.json(savedPerson)
+      }
+    })
+    .catch(error => next(error))
 })
 
 app.put('/api/persons/:id', (request, response, next) => {
   const{name, number} = request.body
   
   if(!number){
-        return response.status(400).json({ 
-            error: 'number cannot be empty' 
+    return response.status(400).json({ 
+      error: 'number cannot be empty' 
     })
   }
   const person = {
@@ -97,9 +97,9 @@ app.put('/api/persons/:id', (request, response, next) => {
 
   Person.findByIdAndUpdate(request.params.id, person, 
     {
-    new: true,
-    runValidators: true,
-    context: 'query'
+      new: true,
+      runValidators: true,
+      context: 'query'
     }
   )
     .then(updatedPerson => {
@@ -110,9 +110,9 @@ app.put('/api/persons/:id', (request, response, next) => {
 
 
 app.delete('/api/persons/:id', (request, response, next) => {
-    Person.findByIdAndDelete(request.params.id).then(() =>{
-      response.status(204).end()
-    })
+  Person.findByIdAndDelete(request.params.id).then(() =>{
+    response.status(204).end()
+  })
     .catch(error => next(error))
 })
 
