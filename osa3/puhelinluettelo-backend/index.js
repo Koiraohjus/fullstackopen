@@ -1,9 +1,8 @@
 const express = require('express')
+require('dotenv').config()
 const morgan = require('morgan')
-
-morgan.token('body', (request) => {
-  return JSON.stringify(request.body)
-})
+const Person = require('./models/person')
+const person = require('./models/person')
 
 const app = express()
 //Lukee HTTP-pyynnon JSON-datan ja laittaa sen request.body-muuttujaan
@@ -13,28 +12,10 @@ app.use(
   morgan(':method :url :status :res[content-length] - :response-time ms :body')
 )
 
-let persons = [
-  {
-    id: "1",
-    name: "Arto Hellas",
-    number: "040-3334444"
-  },
-  {
-    id: "2",
-    name: "Joku Tyyppi",
-    number: "040-1234567"
-  },
-  {
-    id: "3",
-    name: "Sipuli Kontio",
-    number: "040-9876543"
-  },
-  {
-    id: "4",
-    name: "Koira Ohjus",
-    number: "040-5556666"
-  }
-]
+morgan.token('body', (request) => {
+  return JSON.stringify(request.body)
+})
+
 
 app.get('/info',(request, response) => {
     const dateTime = new Date()
@@ -42,23 +23,22 @@ app.get('/info',(request, response) => {
                     <p>${dateTime}</p>`)
 })
 
-app.get('/api/persons', (request, response) =>{
+app.get('/api/persons', (request, response) => {
+  Person.find({}).then(persons =>{
     response.json(persons)
+  })
 }) 
 
 app.get('/api/persons/:id', (request, response) => {
-    const id = request.params.id
-    const person = persons.find(person => person.id === id)
-    if(person){
+    Person.findById(request.params.id).then(person => {
+      response.json(person)
+     if (person) {
         response.json(person)
-    }else {
+      } else {
         response.status(404).end()
-    }
+      }
+    })
 })
-
-const generateId = () => {
-    return String(Math.floor(Math.random() * 100000))
-}
 
 app.post('/api/persons', (request, response) => {
     const body = request.body
@@ -77,44 +57,40 @@ app.post('/api/persons', (request, response) => {
     })
     }
 
-    const person = {
-        id: generateId(),
+    const person = new Person({
         name: body.name,
         number: body.number
-    }
+    })
 
-    persons = [...persons, person]
-    response.json(person)
+    person.save().then(savedPerson => {
+      response.json(savedPerson)
+    })
 
 })
 
 app.put('/api/persons/:id', (request, response) => {
-  const body = request.body
-  const id = request.params.id
+  const{name, number} = request.body
   
-  if(!body.number){
+  if(!number){
         return response.status(400).json({ 
             error: 'number cannot be empty' 
     })
   }
-  const person = persons.find(person => person.id === id)
-
-  const updatedPerson = {
-    ...person,
-    number: body.number
+  const person = {
+    name,
+    number
   }
 
-  persons = persons.map(person =>
-  person.id !== id ? person : updatedPerson
-  )
-
-  response.json(updatedPerson)
+  Person.findByIdAndUpdate(request.params.id, person, { new: true })
+    .then(updatedPerson => {
+      response.json(updatedPerson)
+    })
 })
 
 app.delete('/api/persons/:id', (request, response) => {
-    const id = request.params.id
-    persons = persons.filter(person => person.id !== id)
-    response.status(204).end()
+    Person.findByIdAndDelete(person.params.id).then(() =>{
+      response.status(204).end()
+    })
 })
 
 const unknownEndpoint = (request, response) => {
@@ -123,6 +99,7 @@ const unknownEndpoint = (request, response) => {
 
 app.use(unknownEndpoint)
 
-const PORT = process.env.PORT || 3001
-app.listen(PORT)
-console.log(`Server running on port ${PORT}`)
+const PORT = process.env.PORT
+app.listen(PORT, () => {
+  console.log(`Server running on port ${PORT}`)
+})
