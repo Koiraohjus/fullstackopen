@@ -17,7 +17,7 @@ const personSchema = new mongoose.Schema({
     minlength: 3,
     required: true
   },
-   number: {
+  number: {
     type: String,
     required: true,
     validate: {
