@@ -28,11 +28,11 @@ app.get('/info',(request, response) => {
 })
 
 app.get('/api/persons', (request, response, next) => {
-  Person.find({}).then(persons =>{
+  Person.find({}).then(persons => {
     response.json(persons)
   })
     .catch(error => next(error))
-}) 
+})
 
 app.get('/api/persons/:id', (request, response, next) => {
   Person.findById(request.params.id).then(person => {
@@ -48,13 +48,13 @@ app.get('/api/persons/:id', (request, response, next) => {
 app.post('/api/persons', (request, response, next) => {
   const body = request.body
   if(!body.name){
-    return response.status(400).json({ 
-      error: 'name missing' 
+    return response.status(400).json({
+      error: 'name missing'
     })
   }
   if(!body.number){
-    return response.status(400).json({ 
-      error: 'number missing' 
+    return response.status(400).json({
+      error: 'number missing'
     })
   }
   Person.findOne({
@@ -83,11 +83,11 @@ app.post('/api/persons', (request, response, next) => {
 })
 
 app.put('/api/persons/:id', (request, response, next) => {
-  const{name, number} = request.body
-  
+  const{ name, number } = request.body
+
   if(!number){
-    return response.status(400).json({ 
-      error: 'number cannot be empty' 
+    return response.status(400).json({
+      error: 'number cannot be empty'
     })
   }
   const person = {
@@ -95,7 +95,7 @@ app.put('/api/persons/:id', (request, response, next) => {
     number
   }
 
-  Person.findByIdAndUpdate(request.params.id, person, 
+  Person.findByIdAndUpdate(request.params.id, person,
     {
       new: true,
       runValidators: true,
@@ -110,7 +110,7 @@ app.put('/api/persons/:id', (request, response, next) => {
 
 
 app.delete('/api/persons/:id', (request, response, next) => {
-  Person.findByIdAndDelete(request.params.id).then(() =>{
+  Person.findByIdAndDelete(request.params.id).then(() => {
     response.status(204).end()
   })
     .catch(error => next(error))
@@ -129,7 +129,7 @@ const errorHandler = (error, request, response, next) => {
     return response.status(400).send({ error: 'malformatted id' })
   } else if (error.name === 'ValidationError'){
 
-    return response.status(400).send({error: error.message})
+    return response.status(400).send({ error: error.message })
   }
 
   next(error)

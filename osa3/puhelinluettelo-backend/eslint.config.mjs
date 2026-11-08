@@ -22,6 +22,11 @@ export default [
       '@stylistic/js/linebreak-style': ['error', 'unix'],
       '@stylistic/js/quotes': ['error', 'single'],
       '@stylistic/js/semi': ['error', 'never'],
+      eqeqeq: 'warn',
+      'no-trailing-spaces': 'warn',
+      'object-curly-spacing': ['warn', 'always'],
+      'arrow-spacing': ['warn', { before: true, after: true }],
+      'no-console': 'off',
     }, 
   },
 ]
