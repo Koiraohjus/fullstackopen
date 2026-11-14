@@ -1,0 +1,37 @@
+{
+  "name": "puhelinluettelo-backend",
+  "version": "1.0.0",
+  "description": "puhelinluettelon backend",
+  "homepage": "https://github.com/Koiraohjus/fullstackopen#readme",
+  "bugs": {
+    "url": "https://github.com/Koiraohjus/fullstackopen/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Koiraohjus/fullstackopen.git"
+  },
+  "license": "MIT",
+  "author": "K_Ohjus",
+  "type": "commonjs",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js",
+    "dev": "node --watch index.js",
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build:ui": "rm -rf dist && cd ../puhelinluettelo && npm run build && cp -r dist ../puhelinluettelo-backend",
+    "deploy:full": "npm run build:ui && git add . && git add -f dist && git commit -m uibuild && git push",
+    "lint": "eslint ."
+  },
+  "dependencies": {
+    "dotenv": "^18.0.9",
+    "express": "^5.3.0",
+    "mongoose": "^9.12.0",
+    "morgan": "^1.12.1"
+  },
+  "devDependencies": {
+    "@stylistic/eslint-plugin": "^5.10.0",
+    "eslint": "^9.39.5",
+    "eslint-plugin-react": "^7.37.5",
+    "globals": "^17.14.0"
+  }
+}
