@@ -1,0 +1,35 @@
+GET http://localhost:3001/api/blogs
+###
+POST http://localhost:3001/api/blogs
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6IkpvcmtrZWxpIiwiaWQiOiI2YWY2MDNlODk2NzRiMGY2NGRmNTI1NzMiLCJpYXQiOjE3OTQ1MTM4NzR9.f8KVsMLtZUaB67PhFNIhJfHaTzNfJX9-RcIogrsc5Ac
+
+{
+  "title": "testi blogi neljä",
+  "author": "Joku Tyyppi",
+  "url": "kohjus.fi",
+  "likes": 72,
+  "userId": "6af603e89674b0f64df52573"
+}
+###
+DELETE http://localhost:3001/api/blogs/6af6bf2d0c68b908ae2464a5
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6IkpvcmtrZWxpIiwiaWQiOiI2YWY2MDNlODk2NzRiMGY2NGRmNTI1NzMiLCJpYXQiOjE3OTQ1MTM4NzR9.f8KVsMLtZUaB67PhFNIhJfHaTzNfJX9-RcIogrsc5Ac
+###
+GET http://localhost:3001/api/users
+###
+POST http://localhost:3001/api/users
+Content-Type: application/json
+
+{
+    "username": "jokuTyyppi",
+    "name": "Jorma Jormala",
+    "password": "salasana"
+}
+###
+POST http://localhost:3001/api/login
+Content-Type: application/json
+
+{
+  "username": "Jorkkeli",
+  "password": "salasana"
+}
